@@ -27,14 +27,14 @@
       cursor: pointer; 
     }
 
-    /* Κουμπί επιστροφής (κρυμμένο αρχικά) */
+    /* Κουμπί Πίσω */
     .back-btn {
-      display: none; /* Εμφανίζεται μόνο στη 2η εικόνα */
+      display: none;
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 9999;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.7);
       color: #ffffff;
       padding: 10px 18px;
       border-radius: 25px;
@@ -63,38 +63,43 @@
     const imgElement = document.getElementById('main-image');
     const backBtn = document.getElementById('back-button');
     
-    // Μεταβλητή για να ξέρουμε ποια εικόνα βλέπουμε (1 ή 2)
     let currentImage = 1;
+
+    // Λειτουργία αλλαγής εικόνας
+    function switchImage() {
+      if (currentImage === 1) {
+        imgElement.src = "eikona2.jpg";
+        backBtn.style.display = "block";
+        currentImage = 2;
+      } else {
+        imgElement.src = "eikona.jpg";
+        backBtn.style.display = "none";
+        currentImage = 1;
+      }
+      window.scrollTo(0, 0);
+    }
 
     // Πάτημα στην εικόνα
     imgElement.addEventListener('click', function() {
-      // 1. Ενεργοποίηση Fullscreen
       let elem = document.documentElement;
+
+      // Αν δεν είμαστε σε Fullscreen, ζητάμε Fullscreen
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
         } else if (elem.webkitRequestFullscreen) {
           elem.webkitRequestFullscreen();
         }
-      }
-
-      // 2. Αν είμαστε στην 1η εικόνα, αλλάζουμε στη 2η
-      if (currentImage === 1) {
-        imgElement.src = "eikona2.jpg";
-        backBtn.style.display = "block"; // Εμφάνιση κουμπιού Πίσω
-        currentImage = 2;
-        window.scrollTo(0, 0); // Σκρολάρισμα στην κορυφή
+      } else {
+        // Αν ΕΙΜΑΣΤΕ ΗΔΗ σε Fullscreen, αλλάζουμε εικόνα με το πάτημα
+        switchImage();
       }
     });
 
     // Πάτημα στο κουμπί Πίσω
     backBtn.addEventListener('click', function(e) {
-      e.stopPropagation(); // Εμποδίζει το πάτημα να πιάσει και στην εικόνα
-      
-      imgElement.src = "eikona.jpg";
-      backBtn.style.display = "none"; // Απόκρυψη κουμπιού
-      currentImage = 1;
-      window.scrollTo(0, 0);
+      e.stopPropagation(); // Εμποδίζει το πάτημα στην εικόνα
+      switchImage();
     });
   </script>
 
