@@ -1,0 +1,42 @@
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <!-- Σωστή προσαρμογή στην οθόνη του κινητού -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fullscreen Image</title>
+  
+  <!-- Σύνδεση με το manifest για να δουλεύει ως PWA/App -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+
+  <style>
+    /* Αφαίρεση περιθωρίων και απόκρυψη scrollbars */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000000;
+    }
+
+    /* Κάλυψη ολόκληρης της οθόνης με την εικόνα */
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Χρησιμοποιήστε 'cover' αν θέλετε δε θέλετε να φαίνεται ολη εικόνα */
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Αντικαταστήστε το 'eikona.jpg' με το όνομα του δικού σας αρχείου εικόνας -->
+  <img src="eikona.jpg" alt="Fullscreen Image">
+
+</body>
+</html>
