@@ -1,54 +1,47 @@
 <html lang="el">
 <head>
   <meta charset="UTF-8">
-  <!-- Επιτρέπουμε το scrolling αλλά διατηρούμε σωστό το αρχικό zoom -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fullscreen Scrollable Image</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
 
   <style>
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-    }
-
-    html, body { 
-      width: 100%; 
-      background-color: #000000;
-      /* Επιτρέπουμε το κατακόρυφο σκρολάρισμα */
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-
-    img { 
-      /* Η εικόνα πιάνει όλο το πλάτος της οθόνης */
-      width: 100%; 
-      /* Το ύψος προσαρμόζεται αυτόματα για να μην παραμορφώνεται */
-      height: auto; 
-      display: block; 
-      cursor: pointer; 
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; background-color: #000000; overflow-x: hidden; overflow-y: auto; }
+    img { width: 100%; height: auto; display: block; cursor: pointer; }
+    a { display: block; text-decoration: none; }
   </style>
 </head>
 <body>
 
-  <img src="eikona.jpg" alt="Fullscreen Image" id="fullscreen-img">
+  <!-- Σύνδεσμος που οδηγεί στο page2.html -->
+  <a href="page2.html" id="image-link">
+    <img src="eikona.jpg" alt="First Fullscreen Image">
+  </a>
 
   <script>
-    /* Ενεργοποίηση Native Fullscreen με το πρώτο άγγιγμα στην οθόνη */
-    document.addEventListener('click', function() {
+    const link = document.getElementById('image-link');
+
+    link.addEventListener('click', function(e) {
+      // Εμποδίζουμε τη στιγμιαία μετάβαση για να προλάβει να ενεργοποιηθεί το Fullscreen
+      e.preventDefault();
+      
       let elem = document.documentElement;
-      if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+
+      // Ενεργοποίηση Fullscreen
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
         } else if (elem.webkitRequestFullscreen) {
           elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
         }
       }
+
+      // Μετάβαση στη νέα σελίδα μετά από ελάχιστο χρόνο (100ms)
+      setTimeout(function() {
+        window.location.href = "page2.html";
+      }, 100);
     });
   </script>
 
