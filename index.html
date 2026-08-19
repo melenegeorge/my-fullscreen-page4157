@@ -27,34 +27,39 @@
       cursor: pointer; 
     }
 
-    /* Κουμπί Πίσω */
+    /* Μικρό στρογγυλό κουμπί μόνο με το βέλος */
     .back-btn {
-      display: none;
+      display: none; /* Εμφανίζεται μόνο στη 2η εικόνα */
       position: fixed;
-      top: 20px;
-      left: 20px;
+      top: 15px;
+      left: 15px;
       z-index: 9999;
-      background-color: rgba(0, 0, 0, 0.7);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%; /* Πλήρως στρογγυλό */
+      background-color: rgba(0, 0, 0, 0.6);
       color: #ffffff;
-      padding: 10px 18px;
-      border-radius: 25px;
-      font-family: sans-serif;
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 20px;
+      line-height: 1;
       border: 1px solid rgba(255, 255, 255, 0.4);
       backdrop-filter: blur(5px);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     }
 
     .back-btn:active {
       background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(0.95);
     }
   </style>
 </head>
 <body>
 
-  <!-- Κουμπί Πίσω -->
-  <button id="back-button" class="back-btn">&#8592; Πίσω</button>
+  <!-- Στρογγυλό Κουμπί Πίσω (μόνο το βέλος) -->
+  <button id="back-button" class="back-btn">&#8592;</button>
 
   <!-- Η Εικόνα -->
   <img src="eikona.jpg" alt="Fullscreen Image" id="main-image">
@@ -65,11 +70,10 @@
     
     let currentImage = 1;
 
-    // Λειτουργία αλλαγής εικόνας
     function switchImage() {
       if (currentImage === 1) {
         imgElement.src = "eikona2.jpg";
-        backBtn.style.display = "block";
+        backBtn.style.display = "flex"; // Εμφάνιση του στρογγυλού κουμπιού
         currentImage = 2;
       } else {
         imgElement.src = "eikona.jpg";
@@ -83,7 +87,6 @@
     imgElement.addEventListener('click', function() {
       let elem = document.documentElement;
 
-      // Αν δεν είμαστε σε Fullscreen, ζητάμε Fullscreen
       if (!document.fullscreenElement && !document.webkitFullscreenElement) {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
@@ -91,14 +94,13 @@
           elem.webkitRequestFullscreen();
         }
       } else {
-        // Αν ΕΙΜΑΣΤΕ ΗΔΗ σε Fullscreen, αλλάζουμε εικόνα με το πάτημα
         switchImage();
       }
     });
 
     // Πάτημα στο κουμπί Πίσω
     backBtn.addEventListener('click', function(e) {
-      e.stopPropagation(); // Εμποδίζει το πάτημα στην εικόνα
+      e.stopPropagation();
       switchImage();
     });
   </script>
