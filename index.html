@@ -1,15 +1,35 @@
 <html lang="el">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Fullscreen Image</title>
+  <!-- Επιτρέπουμε το scrolling αλλά διατηρούμε σωστό το αρχικό zoom -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullscreen Scrollable Image</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background-color: #000; }
-    img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    html, body { 
+      width: 100%; 
+      background-color: #000000;
+      /* Επιτρέπουμε το κατακόρυφο σκρολάρισμα */
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    img { 
+      /* Η εικόνα πιάνει όλο το πλάτος της οθόνης */
+      width: 100%; 
+      /* Το ύψος προσαρμόζεται αυτόματα για να μην παραμορφώνεται */
+      height: auto; 
+      display: block; 
+      cursor: pointer; 
+    }
   </style>
 </head>
 <body>
@@ -17,14 +37,15 @@
   <img src="eikona.jpg" alt="Fullscreen Image" id="fullscreen-img">
 
   <script>
+    /* Ενεργοποίηση Native Fullscreen με το πρώτο άγγιγμα στην οθόνη */
     document.addEventListener('click', function() {
       let elem = document.documentElement;
       if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari / Older Chrome */
+        } else if (elem.webkitRequestFullscreen) {
           elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        } else if (elem.msRequestFullscreen) {
           elem.msRequestFullscreen();
         }
       }
