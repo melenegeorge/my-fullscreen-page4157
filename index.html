@@ -19,6 +19,7 @@
     html, body { 
       width: 100%; 
       height: 100%;
+      min-height: 100.1vh; /* Βοηθά το Safari να συμπτύξει τις μπάρες navigation */
       background-color: #000000; 
       overflow: hidden; 
     }
@@ -29,7 +30,7 @@
       flex-direction: column;
       width: 100%;
       height: 100vh;
-      height: 100dvh; /* Dynamic height για iOS Safari */
+      height: 100dvh;
     }
 
     /* Σταθερό πάνω μέρος */
@@ -57,13 +58,26 @@
       cursor: pointer; 
     }
 
-    /* 2η εικόνα */
-    #img-2 {
+    /* Container για τη 2η εικόνα - εξασφαλίζει ότι η εικόνα χωράει ολόκληρη στην οθόνη */
+    #page-2 {
       display: none;
       width: 100%;
-      height: auto;
+      height: 100vh;
+      height: 100dvh;
+      align-items: center;
+      justify-content: center;
+      background-color: #000000;
       padding-top: env(safe-area-inset-top, 0px);
       padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* 2η εικόνα: ρυθμισμένη με object-fit: contain ώστε να φαίνεται ολόκληρη χωρίς cropping */
+    #img-2 {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100dvh;
+      object-fit: contain; /* Προσαρμόζει το ζουμ αυτόματα ώστε να απεικονίζεται ολόκληρη */
     }
 
     /* Μικρό στρογγυλό κουμπί μόνο με το βέλος */
@@ -111,33 +125,43 @@
   </div>
 
   <!-- Δεύτερη Ιστοσελίδα / Εικόνα -->
-  <img src="eikona2.jpg" alt="Second Image" id="img-2">
+  <div id="page-2">
+    <img src="eikona2.jpg" alt="Second Image" id="img-2">
+  </div>
 
   <script>
     const page1 = document.getElementById('page-1');
+    const page2 = document.getElementById('page-2');
     const img2 = document.getElementById('img-2');
     const backBtn = document.getElementById('back-button');
     const bottomContainer = document.getElementById('bottom-container');
     
     let currentImage = 1;
 
+    // Προσπάθεια απόκρυψης των UI μπαρών του Safari
+    function hideSafariAddressBar() {
+      setTimeout(() => {
+        window.scrollTo(0, 1);
+      }, 50);
+    }
+
     function switchImage() {
       if (currentImage === 1) {
         page1.style.display = "none";
-        img2.style.display = "block";
+        page2.style.display = "flex";
         backBtn.style.display = "flex";
         currentImage = 2;
       } else {
-        img2.style.display = "none";
+        page2.style.display = "none";
         page1.style.display = "flex";
         backBtn.style.display = "none";
         bottomContainer.scrollTop = 0;
         currentImage = 1;
       }
-      window.scrollTo(0, 0);
+      hideSafariAddressBar();
     }
 
-    // Έλεγχος αν υποστηρίζεται πραγματικό Fullscreen API (Android)
+    // Έλεγχος υποστήριξης native Fullscreen API (Android)
     function supportsNativeFullscreen() {
       const docEl = document.documentElement;
       return !!(docEl.requestFullscreen || docEl.webkitRequestFullscreen);
@@ -148,14 +172,13 @@
       let elem = document.documentElement;
       const isCurrentlyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
 
-      // Αν είναι Android / Browser που υποστηρίζει Fullscreen API
+      // Για Android
       if (supportsNativeFullscreen() && !isCurrentlyFullscreen) {
         let requestMethod = elem.requestFullscreen || elem.webkitRequestFullscreen;
         if (requestMethod) {
           let promise = requestMethod.call(elem);
           if (promise && promise.catch) {
             promise.catch(() => {
-              // Αν αποτύχει (π.χ. περιορισμός iOS), προχωράμε σε αλλαγή
               switchImage();
             });
           }
@@ -163,7 +186,7 @@
           switchImage();
         }
       } else {
-        // Αν είναι ήδη Fullscreen ή πρόκειται για iOS (iPhone)
+        // Για iOS (Safari) ή όταν είναι ήδη Fullscreen
         switchImage();
       }
     }
