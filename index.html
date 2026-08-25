@@ -3,6 +3,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Fullscreen Image Gallery</title>
+  
+  <!-- Αποκλεισμός ευρετηρίασης από Google, Crawlers & Bots -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -23,81 +28,6 @@
       background-color: #000000; 
       overflow: hidden; 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    /* Οθόνη Εισαγωγής Κωδικού */
-    #login-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      height: 100dvh;
-      background-color: #000000;
-      z-index: 10000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      color: #ffffff;
-    }
-
-    .login-box {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 30px 25px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      text-align: center;
-      width: 100%;
-      max-width: 320px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    }
-
-    .login-box h2 {
-      margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: 500;
-    }
-
-    .login-box input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(0, 0, 0, 0.5);
-      color: #ffffff;
-      font-size: 20px;
-      text-align: center;
-      letter-spacing: 4px;
-      outline: none;
-      margin-bottom: 15px;
-    }
-
-    .login-box button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      background-color: #ffffff;
-      color: #000000;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .login-box button:active {
-      background-color: #cccccc;
-    }
-
-    #error-msg {
-      color: #ff4d4d;
-      font-size: 14px;
-      margin-top: 10px;
-      display: none;
     }
 
     /* Container 1ης ιστοσελίδας */
@@ -187,16 +117,6 @@
 </head>
 <body>
 
-  <!-- Οθόνη Εισαγωγής Κωδικού -->
-  <div id="login-overlay">
-    <div class="login-box">
-      <h2>Εισάγετε Κωδικό</h2>
-      <input type="password" id="password-input" placeholder="****" maxlength="10" pattern="[0-9]*" inputmode="numeric">
-      <button id="login-btn">Είσοδος</button>
-      <p id="error-msg">Λάθος κωδικός!</p>
-    </div>
-  </div>
-
   <!-- Στρογγυλό Κουμπί Πίσω (μόνο το βέλος) -->
   <button id="back-button" class="back-btn">&#8592;</button>
 
@@ -216,36 +136,6 @@
   </div>
 
   <script>
-    // Διαχείριση Κωδικού Πρόσβασης
-    const CORRECT_PIN = "1878";
-    const loginOverlay = document.getElementById('login-overlay');
-    const passwordInput = document.getElementById('password-input');
-    const loginBtn = document.getElementById('login-btn');
-    const errorMsg = document.getElementById('error-msg');
-
-    function checkPassword() {
-      if (passwordInput.value === CORRECT_PIN) {
-        sessionStorage.setItem("authenticated", "true");
-        loginOverlay.style.display = "none";
-      } else {
-        errorMsg.style.display = "block";
-        passwordInput.value = "";
-      }
-    }
-
-    // Έλεγχος αν ο χρήστης έχει ήδη συνδεθεί στη συγκεκριμένη συνεδρία
-    if (sessionStorage.getItem("authenticated") === "true") {
-      loginOverlay.style.display = "none";
-    }
-
-    loginBtn.addEventListener('click', checkPassword);
-    passwordInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        checkPassword();
-      }
-    });
-
-    // Λοιπές Λειτουργίες
     const page1 = document.getElementById('page-1');
     const page2 = document.getElementById('page-2');
     const img2 = document.getElementById('img-2');
