@@ -7,9 +7,10 @@
   "theme_color": "#FF0000",
   "icons": [
     {
-      "src": "eikona.jpg",
+      "src": "eikona_a.jpg",
       "sizes": "192x192",
       "type": "image/jpeg"
     }
   ]
 }
+
